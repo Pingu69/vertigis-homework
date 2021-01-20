@@ -46,12 +46,23 @@ require([
   createCountryPolyline(csvLayer, view);
 
   /**
-   * queries the layer for all features with CODEs AT and DE, then logs them to console.
+   * queries the layer for all features with optional supplied codes, then logs them to console.
    * @param {CSVLayer} layer 
+   * @param {String|String[]} codes default is ['AT', 'DE']
    */
-  async function logCodes(layer) {
+  async function logCodes(layer, codes = ['AT', 'DE']) {
     const query = layer.createQuery();
-    query.where = "CODE = 'AT' OR CODE = 'DE'";
+    const codesArray = [].concat(codes);
+    let whereClause = '';
+
+    for (let i = 0; i < codesArray.length; i++) {
+      whereClause += `CODE = '${codesArray[i]}'`;
+      if (codesArray.length !== (i+1)) {
+        whereClause += ' OR ';
+      }
+    }
+
+    query.where = whereClause;
     query.outFields = ["CODE"];
     query.orderByFields = ["CODE DESC"];
 
