@@ -57,16 +57,8 @@ require([
   async function logCodes(layer, codes = ['AT', 'DE']) {
     const query = layer.createQuery();
     const codesArray = [].concat(codes);
-    let whereClause = '';
-
-    for (let i = 0; i < codesArray.length; i++) {
-      whereClause += `CODE = '${codesArray[i]}'`;
-      if (codesArray.length !== (i+1)) {
-        whereClause += ' OR ';
-      }
-    }
-
-    query.where = whereClause;
+    
+    query.where = `CODE IN ('${codesArray.join("','")}')`;
     query.outFields = ["CODE"];
     query.orderByFields = ["CODE DESC"];
 
