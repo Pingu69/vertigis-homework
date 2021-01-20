@@ -6,6 +6,7 @@ require([
   "esri/Graphic"
 ], function (Map, MapView, CSVLayer, Field, Graphic) {
 
+  // TASK 1 
   const map = new Map({
     basemap: "gray-vector"
   });
@@ -18,6 +19,7 @@ require([
   });
 
   // CSV fields are INDEX, CODE, RECHTSWERT, HOCHWERT
+  // TASK 2
   const csvLayer = new CSVLayer("https://austria.maps.arcgis.com/sharing/rest/content/items/81b6dd9c931e45ec82022a2b9cd18ca0/data", {
     latitudeField: "HOCHWERT",
     longitudeField: "RECHTSWERT",
@@ -28,6 +30,8 @@ require([
         "type": "string" // integer results in null because of new line character
       })]
   });
+
+  // TASK 3
   csvLayer.renderer = {
     type: "simple",
     symbol: {
@@ -45,10 +49,10 @@ require([
   logCodes(csvLayer);
   createCountryPolyline(csvLayer, view);
 
-  /**
+  /** TASK 4
    * queries the layer for all features with optional supplied codes, then logs them to console.
    * @param {CSVLayer} layer 
-   * @param {String|String[]} codes default is ['AT', 'DE']
+   * @param {String|String[]} codes codes = ['AT', 'DE']
    */
   async function logCodes(layer, codes = ['AT', 'DE']) {
     const query = layer.createQuery();
@@ -70,11 +74,11 @@ require([
     featureSet.features.forEach(feature => console.log(feature.attributes["CODE"]));
   };
 
-  /**
+  /** BONUS TASK
    * creates a polyline with the optional supplied country code, and adds it to the view 
    * @param {CSVLayer} layer 
    * @param {MapView} view 
-   * @param {String} countryCode default is AT
+   * @param {String} countryCode countryCode = 'AT'
    */
   async function createCountryPolyline(layer, view, countryCode = 'AT') {
     const query = layer.createQuery();
