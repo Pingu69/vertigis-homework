@@ -1,6 +1,8 @@
 # vertigis-homework
 
-### start
+## Usage examples
+
+### Run app
 
 cd app
 
